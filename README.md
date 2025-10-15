@@ -5,6 +5,7 @@
 This is a practice project ment to prepare developers for the Infrastructure SSLE. With that in mind it is stuctured and administrated in a similar way to the SSLE but will have a different prompt and set of requirements then the actual exam. This practice exam  will also have different time requirements to the exam being that most will not have the ability to take time off to work on it. With this in mind it is intended to take 10 business days or 80 hours total to complete but doesn't have a strict time window. It is up to the developer taking this exam to track there time to ensure they are staying on schedule. This exam is intended to be open ended to allow for many different solutions so there are few specific requirements on tools or resources.
 
 Note: Currently there is no rubric for this exam but general scoring follows the breakdown:
+
     - 10% Planning
     - 70% Development
     - 20% Panel
@@ -29,6 +30,7 @@ Once the planning phase has been completed the developer can begin development. 
 ### Panel
 
 After development is complete the developer will be required to demonstrate there project to the proctor. The general flow of the panel is as follows:
+
     - Start deployment of infrastructure since it usually takes awhile.
     - Overview of development going through initial design, changes during development and major design decisions.
     - Any questions the proctor has on the design decisions that were made.
