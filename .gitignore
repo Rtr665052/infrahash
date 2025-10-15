@@ -2,3 +2,7 @@
 .*
 !.gitignore
 !.gitlab-ci.yml
+
+# Project Files
+uv.lock
+data.db

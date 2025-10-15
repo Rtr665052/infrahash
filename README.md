@@ -31,15 +31,15 @@ Once the planning phase has been completed the developer can begin development. 
 
 After development is complete the developer will be required to demonstrate there project to the proctor. The general flow of the panel is as follows:
 
-    - Start deployment of infrastructure since it usually takes awhile.
-    - Overview of development going through initial design, changes during development and major design decisions.
-    - Any questions the proctor has on the design decisions that were made.
-    - Demonstration of local and cloud deployment syncing.
-    - Demonstration of local and cloud deployment autoscaling in reaction to high workload.
-    - Demonstration of a live update to local and cloud infrastructure through managment systems.
-    - Start destruction of infrastructure.
-    - Any additional questions of the demonstrations.
-    - Break for final grade and closing the practice exam.
+1. Start deployment of infrastructure since it usually takes awhile.
+2. Overview of development going through initial design, changes during development and major design decisions.
+3. Any questions the proctor has on the design decisions that were made.
+4. Demonstration of local and cloud deployment syncing.
+5. Demonstration of local and cloud deployment autoscaling in reaction to high workload.
+6. Demonstration of a live update to local and cloud infrastructure through managment systems.
+7. Start destruction of infrastructure.
+8. Any additional questions of the demonstrations.
+9. Break for final grade and closing the practice exam.
 
 ## Scenario 
 
