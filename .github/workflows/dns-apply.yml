@@ -1,20 +1,13 @@
-name: Terraform Destroy
+name: DNS Stack Apply
 
 on:
   workflow_dispatch:
-    inputs:
-      stack:
-        description: 'Which stack to destroy?'
-        required: true
-        type: choice
-        options:
-          - infra
-          - k8s
-          - dns
-      confirm_destroy:
-        description: 'Type DESTROY to confirm'
-        required: true
-        type: string
+  push:
+    branches:
+      - main
+    paths:
+      - 'dns/**'
+      - '.github/workflows/dns-apply.yml'
 
 permissions:
   id-token: write
@@ -25,12 +18,11 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  destroy:
-    if: ${{ github.event.inputs.confirm_destroy == 'DESTROY' }}
+  terraform:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ${{ github.event.inputs.stack }}
+        working-directory: dns
 
     steps:
       - name: Checkout code
@@ -48,5 +40,11 @@ jobs:
       - name: Terraform Init
         run: terraform init -input=false
 
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve -input=false
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan -input=false
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
