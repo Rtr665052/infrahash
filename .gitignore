@@ -1,8 +1,0 @@
-# Ignore all . files except...
-.*
-!.gitignore
-!.gitlab-ci.yml
-
-# Project Files
-uv.lock
-data.db
