@@ -1,27 +1,72 @@
-name: K8s Stack Apply
+name: K8s Apply
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
+  pull_request:
+    branches: [main]
     paths:
       - 'k8s/**'
       - '.github/workflows/k8s-apply.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'k8s/**'
+      - '.github/workflows/k8s-apply.yml'
+  workflow_dispatch:
 
 permissions:
   id-token: write
   contents: read
 
+concurrency:
+  group: terraform-k8s
+  cancel-in-progress: false
+
 env:
   AWS_REGION: ${{ vars.AWS_REGION }}
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  TF_IN_AUTOMATION: true
 
 jobs:
-  terraform:
+  terraform-plan:
     runs-on: ubuntu-latest
+
     defaults:
       run:
+        shell: bash
+        working-directory: k8s
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Init
+        run: terraform init -input=false
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -input=false -out=tfplan
+
+  terraform-apply:
+    if: github.event_name == 'workflow_dispatch'
+    needs: terraform-plan
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
         working-directory: k8s
 
     steps:
@@ -40,11 +85,5 @@ jobs:
       - name: Terraform Init
         run: terraform init -input=false
 
-      - name: Terraform Validate
-        run: terraform validate
-
-      - name: Terraform Plan
-        run: terraform plan -out=tfplan -input=false
-
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve -input=false
