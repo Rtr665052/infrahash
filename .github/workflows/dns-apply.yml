@@ -27,7 +27,7 @@ env:
   TF_IN_AUTOMATION: true
 
 jobs:
-  terraform-plan:
+  terraform-checks:
     if: |
       github.event_name == 'pull_request' ||
       github.event_name == 'workflow_dispatch' ||
@@ -61,6 +61,35 @@ jobs:
 
       - name: Terraform Validate
         run: terraform validate
+
+  terraform-plan:
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success')
+    needs: terraform-checks
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: dns
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init -input=false
 
       - name: Terraform Plan
         run: terraform plan -input=false -out=tfplan
