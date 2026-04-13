@@ -1,315 +1,71 @@
+# InfraHash – AWS Infrastructure Project (Terraform + Kubernetes)
 
-# InfraHash
+## Overview
+InfraHash is an infrastructure-focused project built to demonstrate secure and scalable application deployment on AWS using Terraform and Kubernetes.
 
-InfraHash is a **distributed password hashing and recovery platform** designed for cybersecurity research, ethical penetration testing, and credential recovery operations.
+The project is centered on Infrastructure as Code, container orchestration, secure networking, and cloud architecture design. It is being developed as a practical platform for testing AWS infrastructure patterns, deployment workflows, and hybrid deployment concepts.
 
-The system supports **cloud-native deployments on AWS** as well as **lightweight local deployments** for remote or disconnected environments.
+## What This Project Demonstrates
+- AWS infrastructure provisioning with Terraform
+- Kubernetes-based application deployment
+- Multi-tier cloud architecture design
+- Load balancing and network segmentation
+- CI/CD and deployment workflow experimentation
+- Secure infrastructure practices in a cloud environment
 
-InfraHash enables teams to:
+## Current State
+InfraHash is an active work-in-progress project.
 
-- Store and manage password hashes
-- Perform controlled brute-force password recovery
-- Synchronize password data between multiple deployments
-- Scale compute workloads dynamically in the cloud
+The AWS infrastructure and Kubernetes components are being developed and tested, but some functionality is still being validated. Current areas being worked through include:
 
----
+- `kubeconfig` must currently be refreshed after redeployment
+- the management node workflow in the EKS environment still needs refinement
+- RDS connectivity and integration with EKS are still being tested
+- local/cloud synchronization is planned but not yet implemented
 
-# Key Features
+This project is intended to show both current implementation work and the engineering thought process behind building a resilient cloud environment.
 
-## Password Hash Management
-- SHA-256 hashing
-- CRUD API for password records
-- Database-backed storage
-
-## Password Recovery
-- Brute-force cracking engine
-- Supports passwords up to 5 characters
-- Designed for controlled cybersecurity research
-
-## Distributed Synchronization
-- Sync passwords between instances
-- Trigger synchronization via API
-- Enables hybrid deployments (cloud + remote)
-
-## Scalable Cloud Infrastructure
-- Kubernetes-based deployment
-- Horizontal pod autoscaling
-- Cluster autoscaling
-
-## Infrastructure as Code
-- Terraform manages full AWS environment
-- Repeatable infrastructure deployments
-
----
-
-# System Architecture
-
-InfraHash is designed as a **cloud-native distributed system**.
-
-Core architecture components include:
-
-## AWS Cloud Environment
-
-### Networking
+## Architecture
+The current architecture is designed around the following AWS components:
 
 - VPC with public and private subnets
-- Internet Gateway
-- NAT Gateway
-- Security Groups
-- Route Tables
+- Application Load Balancer for traffic routing
+- EKS for container orchestration
+- RDS PostgreSQL for database testing and integration
+- supporting networking and access controls for secure deployment
 
-### Compute
-
-- Amazon EKS cluster
-- Worker nodes in Auto Scaling Groups
-- Containerized InfraHash services
-
-### Load Balancing
-
-- AWS Application Load Balancer
-- Routes traffic to Kubernetes services
-
-### Database
-
-- Amazon RDS (PostgreSQL or MySQL)
-- Centralized storage for password hashes
-
-### Secrets Management
-
-- AWS Secrets Manager
-- Automatic credential rotation
-
-### Scaling
-
-- Kubernetes Horizontal Pod Autoscaler
-- EKS Cluster Autoscaler
-
-### Monitoring
-
-- CloudWatch metrics and logs
-- Prometheus
-- Grafana dashboards
-
-### Management Node
-
-EC2 instance running:
-
-- kubectl
-- Ansible
-- k9s
-- Prometheus
-- Grafana
-
----
-
-# Local Deployment
-
-InfraHash also supports **lightweight deployments** for remote environments.
-
-Supported runtimes:
-
+## Technologies Used
+- AWS
+- Terraform
+- Kubernetes
 - Docker
-- Podman
-- K3s
-- Minikube
-
-Local deployments can:
-
-- run the full application stack
-- connect to a cloud database
-- synchronize with cloud instances
-
----
-
-# Application Overview
-
-The InfraHash application is built using:
-
-- Python 3.9+
-- Flask
-- SQLAlchemy
-- SQLite or PostgreSQL
-- REST API
-
-Application capabilities include:
-
-- password hashing
-- password recovery
-- database management
-- distributed synchronization
-
----
-
-# Running the Application
-
-## Requirements
-
-- Python 3.9+
-- Flask
-- SQLAlchemy
-- Requests
-- uv package manager
-
-## Install Dependencies
-
-```bash
-pip install uv
-uv sync
-```
-
-## Run the application
-
-```bash
-uv run python infrahash.py
-```
-
-Default configuration:
-
-- Host: 0.0.0.0
-- Port: 5000
-- Database: data.db
-
-## Custom configuration
-
-```bash
-uv run python infrahash.py --db custom.db --port 8080 --host 127.0.0.1
-```
-
----
-
-# API Endpoints
-
-InfraHash exposes a REST API for managing password records.
-
-## Add Password
-
-```
-POST /api/passwords
-```
-
-Example:
-
-```bash
-curl -X POST -H "Content-Type: application/json" -d '{"password": "example"}' http://localhost:5000/api/passwords
-```
-
-## Retrieve Passwords
-
-```
-GET /api/passwords
-```
-
-## Update Password
-
-```
-PUT /api/passwords/<id>
-```
-
-## Delete Password
-
-```
-DELETE /api/passwords/<id>
-```
-
-## Synchronization
-
-InfraHash instances can synchronize password records.
-
-Trigger synchronization:
-
-```
-POST /api/sync-trigger
-```
-
----
-
-# Deployment
-
-## Cloud Deployment (AWS)
-
-Infrastructure is provisioned using Terraform.
-
-Example deployment flow:
-
-```bash
-terraform init
-terraform plan
-terraform apply
-```
-
-Terraform provisions:
-
-- VPC
-- EKS cluster
-- worker nodes
-- RDS database
-- ALB
-- Secrets Manager
-- autoscaling infrastructure
-
----
-
-# Security Features
-
-InfraHash follows modern DevSecOps practices:
-
-- Secrets stored in AWS Secrets Manager
-- Database credentials rotated automatically
-- Private subnets for compute nodes
-- Security groups restrict access
-- IAM roles used for least privilege access
-
----
-
-# Scaling
-
-InfraHash can automatically scale to handle heavy workloads.
-
-Scaling mechanisms include:
-
-- Kubernetes Horizontal Pod Autoscaler
-- EKS Cluster Autoscaler
-- ALB load balancing
-
----
-
-# Monitoring
-
-Monitoring stack includes:
-
-- CloudWatch logs
-- Prometheus metrics
-- Grafana dashboards
-
-These tools provide visibility into:
-
-- system health
-- resource usage
-- application performance
-
----
-
-# Use Cases
-
-InfraHash can be used for:
-
-- cybersecurity research
-- password recovery
-- penetration testing environments
-- distributed password cracking labs
-- educational environments
-
----
-
-# Project Structure
-
-```
-infrahash/
- ├── infrahash.py
- ├── models.py
- ├── templates/
- ├── static/
- ├── terraform/
- ├── docker/
- └── README.md
-```
+- Python / Flask
+- GitHub Actions
+
+## Security Focus
+Security considerations built into the project include:
+
+- network segmentation between public and private components
+- controlled access patterns
+- infrastructure automation through Terraform
+- emphasis on secure configuration and long-term maintainability
+
+## Key Goals
+The long-term goals of InfraHash include:
+
+- reliable AWS deployment through Terraform
+- stable Kubernetes application hosting on EKS
+- validated RDS integration
+- improved management access workflows
+- streamlined redeployment process
+- future hybrid/local synchronization capability
+
+## Notes on Development
+This repository reflects an iterative engineering process. Some components are functional today, while others are still being tested, debugged, and improved. The goal is not just to deploy infrastructure, but to understand and solve the operational issues that come with building real cloud environments.
+
+## Author
+**Thomas Repa**  
+Cloud / Infrastructure Engineer | AWS | Terraform | Kubernetes | TS/SCI (CI Poly)
+
+GitHub: https://github.com/Rtr665052  
+LinkedIn: https://www.linkedin.com/in/thomas-repa/
