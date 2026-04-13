@@ -63,6 +63,11 @@ The long-term goals of InfraHash include:
 ## Notes on Development
 This repository reflects an iterative engineering process. Some components are functional today, while others are still being tested, debugged, and improved. The goal is not just to deploy infrastructure, but to understand and solve the operational issues that come with building real cloud environments.
 
+## Known Issues / Active Work
+- `aws eks update-kubeconfig` currently needs to be rerun after redeployments
+- management node behavior in the EKS environment is still being refined
+- RDS-to-EKS connectivity and application integration are still under validation
+
 ## Author
 **Thomas Repa**  
 Cloud / Infrastructure Engineer | AWS | Terraform | Kubernetes | TS/SCI (CI Poly)
