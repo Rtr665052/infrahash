@@ -3,15 +3,16 @@
 ## Overview
 InfraHash is an infrastructure-focused project built to demonstrate secure and scalable application deployment on AWS using Terraform and Kubernetes.
 
-The project is centered on Infrastructure as Code, container orchestration, secure networking, and cloud architecture design. It is being developed as a practical platform for testing AWS infrastructure patterns, deployment workflows, and hybrid deployment concepts.
+The project is centered on Infrastructure as Code, container orchestration, secure networking, and cloud architecture design. It is being developed as a practical platform for testing AWS infrastructure patterns, deployment workflows, and hybrid deployment concepts. Designed and deployed AWS infrastructure using Terraform to support containerized workloads on Kubernetes (EKS), focusing on scalability, security, and modular infrastructure design.
 
-## What This Project Demonstrates
-- AWS infrastructure provisioning with Terraform
-- Kubernetes-based application deployment
-- Multi-tier cloud architecture design
-- Load balancing and network segmentation
-- CI/CD and deployment workflow experimentation
-- Secure infrastructure practices in a cloud environment
+## 🎯 What This Project Demonstrates
+- Infrastructure as Code (Terraform) for AWS environments  
+- Kubernetes-based application deployment (EKS)  
+- Multi-tier cloud architecture design  
+- Load balancing and traffic routing with ALB  
+- Secure networking (public/private subnets, access control)  
+- CI/CD workflow integration and automation concepts  
+- Real-world troubleshooting and infrastructure iteration 
 
 ## Current State
 InfraHash is an active work-in-progress project.
@@ -31,24 +32,38 @@ The current architecture is designed around the following AWS components:
 - VPC with public and private subnets
 - Application Load Balancer for traffic routing
 - EKS for container orchestration
-- RDS PostgreSQL for database testing and integration
-- supporting networking and access controls for secure deployment
+- RDS (PostgreSQL) for database integration (currently under validation)
+- supporting networking and access controls to enable secure deployment
 
-## Technologies Used
-- AWS
-- Terraform
-- Kubernetes
-- Docker
-- Python / Flask
-- GitHub Actions
+This modular architecture separates infrastructure, application deployment, and DNS management into distinct layers to mirror real-world cloud environments.
 
-## Security Focus
-Security considerations built into the project include:
+## 🧰 Technologies Used
 
-- network segmentation between public and private components
-- controlled access patterns
-- infrastructure automation through Terraform
-- emphasis on secure configuration and long-term maintainability
+- **AWS**: VPC, EC2, ALB, EKS, RDS, IAM  
+- **Terraform**: Infrastructure as Code (IaC)  
+- **Docker**: Containerization  
+- **Kubernetes**: Container orchestration  
+- **CI/CD**: GitHub Actions (concepts and workflows)  
+- **Python / Flask**: Backend application 
+
+## 🔐 Security Approach
+
+Security is integrated throughout the infrastructure design:
+
+- Network segmentation (public vs private subnets)  
+- Controlled inbound and outbound traffic using security groups  
+- IAM roles with least-privilege principles  
+- Isolation between application and database layers  
+- Focus on secure configuration and long-term maintainability
+
+## 🚀 Key Features
+
+- Multi-AZ infrastructure design for high availability  
+- Containerized workloads deployed via Kubernetes  
+- Infrastructure fully managed with Terraform  
+- Load-balanced application entry point  
+- Modular infrastructure layout (infra / k8s / dns separation)  
+- Designed for iterative deployment and testing  
 
 ## Key Goals
 The long-term goals of InfraHash include:
@@ -60,8 +75,43 @@ The long-term goals of InfraHash include:
 - streamlined redeployment process
 - future hybrid/local synchronization capability
 
+## ⚙️ Deployment
+
+### Prerequisites
+- AWS account with appropriate permissions  
+- Terraform installed  
+- Docker installed  
+- kubectl configured 
+
 ## Notes on Development
 This repository reflects an iterative engineering process. Some components are functional today, while others are still being tested, debugged, and improved. The goal is not just to deploy infrastructure, but to understand and solve the operational issues that come with building real cloud environments.
+
+### Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/Rtr665052/infrahash.git
+cd infrahash
+
+# Deploy infrastructure
+cd infra
+terraform init
+terraform apply
+
+# Configure Kubernetes access
+aws eks update-kubeconfig --region <region> --name <cluster-name>
+
+# Deploy Kubernetes workload
+cd ../k8s
+terraform init
+terraform apply
+
+# Deploy DNS
+cd ../dns
+terraform init
+terraform apply
+
+```
 
 ## Known Issues / Active Work
 - `aws eks update-kubeconfig` currently needs to be rerun after redeployments
